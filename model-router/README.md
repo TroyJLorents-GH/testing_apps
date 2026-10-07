@@ -1,0 +1,18 @@
+# model-router
+
+A Claude Code mod that routes each turn to the cheapest model + effort that fits the task
+(Sonnet 5.5 → Opus 5.5 → Fable 5.1) and shows the cost ladder in a side pane.
+
+```
+/plugin install model-router --marketplace troyjlorents-gh/testing_apps
+```
+
+- **Pick:** Haiku 4.5 grades each prompt (keyword rules as fallback). Mid-turn it only moves up: risky shell commands (`terraform apply`, `kubectl apply`, `rm -rf`, ...), every 2nd failed tool call, 6+ files edited.
+- **Cache-aware:** while the prompt cache is warm it only steps down when the new pick is `stickiness` dots lower.
+- **Pane:** 3 models x 5 efforts, lit dots green → orange → red, `◉` = current.
+- **Commands:** `/route`, `/route auto`, `/route off`, `/route pin <sonnet|opus|fable> [effort]`.
+- **Settings:** `classifier` (haiku|heuristic), `ceiling` (sonnet|opus|fable), `stickiness`.
+
+Prices ($/MTok in/out): Sonnet 5.5 2/10, Opus 5.5 4/20, Fable 5.1 10/50.
+
+Test: `claude plugin test model-router`. Validate: `claude plugin validate model-router`.
