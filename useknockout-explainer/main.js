@@ -30,8 +30,10 @@
   const photoT = { x: 0, y: 0, scale: sP }
   const studioT = { x: (G.studio.paste[0] - G.subject[0]) * sS, y: (G.studio.paste[1] - G.subject[1]) * sS, scale: sS }
   // clip-path insets are in the image's own (unscaled) pixels: convert a frame x into a % of the image width.
-  const pct = (frameX, t) => `${((frameX - t.x) / t.scale / G.image[0]) * 100}%`
-  const beforeClip = (frameX) => `inset(0% calc(100% - ${pct(frameX, studioT)}) 0% 0%)`
+  // In the studio states the whole frame scales so the 679 px studio shot shows at 1:1 pixels.
+  const fStudio = Math.min(1, G.studio.size[0] / size)
+  // No calc(): the browser simplifies it in computed style, so GSAP would pair mismatched numbers.
+  const beforeClip = (frameX) => `inset(0% ${100 - ((frameX - studioT.x) / studioT.scale / G.image[0]) * 100}% 0% 0%)`
 
   el('div', 'checker', frame)
   const white = el('div', 'white', frame)
@@ -52,8 +54,13 @@
   }
   const fileTag = tag('original-shoe.jpg', 18, 18)
   const psdTag = tag(`shoe.psd · ${G.psd.size[0]} × ${G.psd.size[1]}`, 18, 18)
-  const beforeTag = tag('Before', 18, 18)
-  const afterTag = tag('After', 18, 18, 'right')
+  const inTag = (text, side) => {
+    const n = el('div', 'tag', frame, { textContent: text })
+    Object.assign(n.style, { top: '18px', left: side === 'left' ? '18px' : 'auto', right: side === 'right' ? '18px' : 'auto' })
+    return n
+  }
+  const beforeTag = inTag('Before', 'left')
+  const afterTag = inTag('After', 'right')
 
   // Text columns, one per step. Titles reveal line by line behind a mask.
   const cols = {}
@@ -71,9 +78,10 @@
     const title = el('div', 'title', col)
     title.style.fontSize = px(L.type.title)
     const lines = step.title.split('\n').map((t) => el('span', '', el('span', 'line', title), { textContent: t }))
-    const blurb = el('div', key === 'cta' ? 'url' : 'blurb', col, { textContent: step.blurb })
+    const blurb = el('div', key === 'cta' ? 'url' : 'blurb', col, { textContent: step.blurb || '' })
     blurb.style.fontSize = px(key === 'cta' ? L.type.blurb * 0.95 : L.type.blurb)
     if (key === 'cta') blurb.style.marginTop = '26px'
+    if (!step.blurb) blurb.style.display = 'none'
     cols[key] = { col, label, lines, blurb }
   }
 
@@ -103,7 +111,7 @@
   }
 
   const caps = CAPTIONS.map((c) => {
-    const n = el('div', 'caption', stage, { textContent: c.text })
+    const n = el('div', 'caption', document.body, { textContent: c.text }) // outside #stage: never zooms
     Object.assign(n.style, { left: px(L.caption.cx), bottom: px(L.caption.bottom), maxWidth: px(L.caption.maxW), fontSize: px(L.type.caption) })
     return n
   })
@@ -163,7 +171,7 @@
   // 5-11 s: Remove Background. A scan line wipes the background away; the shoe never moves.
   colOut('intro', S.remove)
   tl.to(fileTag, { opacity: 0, duration: 0.3, ease: E.exit }, S.remove)
-  colIn('remove', S.remove + 0.25)
+  colIn('remove', S.remove + 0.4)
   tl.set(cutout, { opacity: 1 }, K.scanStart)
     .set(scan, { opacity: 1, x: 0 }, K.scanStart)
     .to(scan, { x: size, duration: K.scanEnd - K.scanStart, ease: E.soft }, K.scanStart)
@@ -172,8 +180,9 @@
 
   // 11-19 s: Studio Shot. The same cutout glides into the studio-shot framing; backdrop and shadow arrive.
   colOut('remove', S.studio)
-  colIn('studio', S.studio + 0.25)
+  colIn('studio', S.studio + 0.4)
   tl.to(cutout, { ...studioT, duration: K.toStudioEnd - K.toStudio, ease: E.move }, K.toStudio)
+    .to(frame, { scale: fStudio, duration: K.toStudioEnd - K.toStudio, ease: E.move }, K.toStudio)
     .to(white, { opacity: 1, duration: 1.0, ease: E.soft }, K.toStudio + 0.4)
     .to(shadow, { opacity: 1, duration: 0.6, ease: E.soft }, K.shadowIn)
     .to(studio, { opacity: 1, duration: 0.25, ease: 'none' }, K.exactSwap)
@@ -189,10 +198,11 @@
 
   // 19-26 s: Photoshop File. Back to the 1024 px document: one transparent "Cutout" layer.
   colOut('studio', S.psd)
-  colIn('psd', S.psd + 0.25)
+  colIn('psd', S.psd + 0.4)
   tl.to([studio, shadow], { opacity: 0, duration: 0.3, ease: 'none' }, K.toPsd)
     .to(white, { opacity: 0, duration: 0.8, ease: E.soft }, K.toPsd + 0.2)
     .to(cutout, { ...photoT, duration: K.toPsdEnd - K.toPsd, ease: E.move }, K.toPsd)
+    .to(frame, { scale: 1, duration: K.toPsdEnd - K.toPsd, ease: E.move }, K.toPsd)
     .to(psdTag, { opacity: 1, duration: 0.5 }, K.toPsdEnd - 0.2)
     .fromTo(panel, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7, immediateRender: false }, K.panelIn)
     .to(hl, { opacity: 1, duration: 0.25, ease: 'power1.out' }, K.rowSelect)
@@ -207,6 +217,7 @@
   colOut('psd', S.cta)
   tl.to([panel, psdTag], { opacity: 0, duration: 0.3, ease: E.exit }, S.cta)
     .to(cutout, { ...studioT, duration: 1.0, ease: E.move }, K.toFinal)
+    .to(frame, { scale: fStudio, duration: 1.0, ease: E.move }, K.toFinal)
     .to(white, { opacity: 1, duration: 0.7, ease: E.soft }, K.toFinal + 0.2)
     .to(shadow, { opacity: 1, duration: 0.4, ease: E.soft }, K.toFinal + 0.7)
     .to(studio, { opacity: 1, duration: 0.25, ease: 'none' }, K.toFinal + 1.05)

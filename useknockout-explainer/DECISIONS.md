@@ -32,3 +32,12 @@ One line each. The brief came with no attachments, and the clarifying questions 
 - **1080p masters** (1920×1080 and 1080×1920), no 4K. The source photo is 1024 px and the studio shot 679 px, so 4K would only upscale.
 - **Studio state upscales the shot 1.12-1.15×** to fill the frame. This is acceptable at viewing size and noted for QA.
 - **9:16 is recomposed, not cropped:** a stacked layout, with text inside the top 14% / bottom 20% / right 12% safe zones.
+
+## Review round 1 (independent reviewer agent, frames from the v1 export)
+- **Fixed:** the before/after edge lagged the handle mid-move. The browser simplified `calc()` in the computed clip-path, so GSAP paired the wrong numbers. It now uses a plain `inset()`, verified mid-move.
+- **Fixed:** labels collided at scene changes. Incoming labels now start after the outgoing column is gone.
+- **Fixed:** the PSD facts were the smallest text on screen. The panel and tags are about 35% larger; in 9:16 the panel floats inside the document above the shoe.
+- **Fixed:** captions zoomed with the final camera push. They now sit outside the camera.
+- **Fixed:** 9:16 content sat right at the safe-zone edge. Captions now end at 85% width / 77.6% height.
+- **Not changed:** "the shadow reads like a sticker". That is the real /studio-shot output (offset 8,12, blur 14, 35%). Drawing a nicer shadow would misrepresent the product.
+- **Not changed:** "the before/after is stock". The brief prescribes these beats; specificity comes from the real cutout, the real studio output and the real PSD structure.

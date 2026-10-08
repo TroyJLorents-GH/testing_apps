@@ -23,15 +23,15 @@ const CAPTIONS = [
   { start: 5.4, end: 10.8, text: 'Remove the background. Same shoe, same angle.' },
   { start: 11.4, end: 18.8, text: 'Then place it on a clean studio backdrop, ready for your store.' },
   { start: 19.4, end: 25.8, text: 'Export a PSD with the shoe on its own layer, still editable.' },
-  { start: 26.2, end: 29.8, text: 'Try the Design Studio at useknockout.com/workspace' },
+  { start: 26.2, end: 29.8, text: 'One photo, ready for your store, still editable.' },
 ]
 
-// On-screen step copy: tool labels and descriptions as they appear in Design Studio (lib/workspace/tools.ts).
+// On-screen step copy: tool labels as they appear in Design Studio (lib/workspace/tools.ts). No subheads: captions carry the line.
 const STEPS = {
-  intro: { label: 'Your product photo', title: 'Great shoe.\nBusy photo.', blurb: 'One ordinary product photo, straight from the camera roll.' },
-  remove: { label: '01 · Remove Background', title: 'Remove\nBackground', blurb: 'Cut the subject out and leave the background transparent.' },
-  studio: { label: '02 · Studio Shot', title: 'Studio Shot', blurb: 'Place the subject on a clean studio backdrop.' },
-  psd: { label: '03 · Photoshop File', title: 'Photoshop File', blurb: 'Export a layered PSD with the subject on its own layer.' },
+  intro: { label: 'Your product photo', title: 'Great shoe.\nBusy photo.' },
+  remove: { label: '01 · Remove Background', title: 'Remove\nBackground' },
+  studio: { label: '02 · Studio Shot', title: 'Studio Shot' },
+  psd: { label: '03 · Photoshop File', title: 'Photoshop File' },
   cta: { label: 'useknockout', title: 'Try the\nDesign Studio', blurb: 'useknockout.com/workspace' },
 }
 
@@ -43,17 +43,17 @@ const LAYOUTS = {
     col: { x: 1080, y: 286, w: 680 },
     type: { label: 22, title: 76, blurb: 30, caption: 34 },
     caption: { cx: 960, bottom: 52, maxW: 1400 },
-    capture: { x: 1080, y: 606, w: 540 },
-    panel: { x: 1080, y: 548, w: 460 },
+    capture: null, // cut: the only real captures show unrelated compositions, unreadable at CTA size
+    panel: { x: 1080, y: 440, w: 560 },
   },
   '9x16': {
     w: 1080, h: 1920,
-    frame: { x: 160, y: 606, size: 760 },
+    frame: { x: 160, y: 580, size: 760 },
     col: { x: 96, y: 290, w: 840 },
-    type: { label: 26, title: 66, blurb: 30, caption: 38 },
-    caption: { cx: 523, bottom: 396, maxW: 850 },
+    type: { label: 26, title: 66, blurb: 30, caption: 34 },
+    caption: { cx: 520, bottom: 430, maxW: 800 },
     capture: null,
-    panel: { x: 520, y: 1250, w: 384 },
+    panel: { x: 470, y: 598, w: 436 },
   },
 }
 
