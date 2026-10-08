@@ -17,7 +17,12 @@ pad = 6
 logo.crop((xs.min() - pad, ys.min() - pad, xs.max() + pad, ys.max() + pad)).save(ROOT / "brand/logo-trim.png")
 
 # Design Studio capture: the toolbar shows a real key prefix. Replace it with a fictional workspace.
-cap = Image.open(ROOT / "screens/effects.png").convert("RGB")
+# Source: useknockout/landing-page public/assets/canvas/effects.png (not kept in this repo; only the patched copy is).
+src = ROOT / "screens/effects.png"
+if not src.exists():
+    print("logo-trim.png written; screens/design-studio.png kept (copy effects.png into screens/ to re-patch)")
+    raise SystemExit(0)
+cap = Image.open(src).convert("RGB")
 d = ImageDraw.Draw(cap)
 font = ImageFont.truetype("/usr/share/fonts/opentype/inter/Inter-Regular.otf", 12)
 # Workspace selector box spans roughly x 1230-1405, y 8-37 at native size.
