@@ -29,3 +29,13 @@ wait
 
 node $R/qa.mjs out/useknockout_16x9.mp4 --fps 30 --width 1920 --height 1080 --duration 30 --report out/qa_16x9.json --contact out/contact_16x9.png
 node $R/qa.mjs out/useknockout_9x16.mp4 --fps 30 --width 1080 --height 1920 --duration 30 --report out/qa_9x16.json --contact out/contact_9x16.png
+
+# Web encodes for the homepage and Reel upload (about 5 MB each), plus a committed copy of the deliverables.
+for f in useknockout_16x9 useknockout_9x16; do
+  ffmpeg -hide_banner -loglevel error -y -i out/$f.mp4 -c:v libx264 -preset slower -crf 23 -pix_fmt yuv420p \
+    -colorspace bt709 -color_primaries bt709 -color_trc bt709 -c:a aac -b:a 160k -movflags +faststart out/${f}_web.mp4
+done
+mkdir -p deliverables
+cp out/useknockout_16x9_web.mp4 out/useknockout_9x16_web.mp4 out/captions.srt out/qa_16x9.json out/qa_9x16.json deliverables/
+ffmpeg -hide_banner -loglevel error -y -i out/contact_16x9.png -vf scale=1600:-1 deliverables/contact_16x9.png
+ffmpeg -hide_banner -loglevel error -y -i out/contact_9x16.png -vf scale=1600:-1 deliverables/contact_9x16.png

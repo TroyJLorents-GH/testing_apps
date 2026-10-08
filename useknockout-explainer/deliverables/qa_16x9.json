@@ -1,0 +1,81 @@
+{
+  "file": "out/useknockout_16x9.mp4",
+  "fps": 30,
+  "duration": 30,
+  "checks": [
+    {
+      "name": "video stream",
+      "pass": true,
+      "hard": true,
+      "detail": "h264 1920x1080 yuv420p"
+    },
+    {
+      "name": "frame rate",
+      "pass": true,
+      "hard": true,
+      "detail": "30.000 fps"
+    },
+    {
+      "name": "resolution",
+      "pass": true,
+      "hard": true,
+      "detail": "1920x1080"
+    },
+    {
+      "name": "duration",
+      "pass": true,
+      "hard": true,
+      "detail": "30.000s"
+    },
+    {
+      "name": "bt709 color tags",
+      "pass": true,
+      "hard": true,
+      "detail": "bt709/bt709/bt709"
+    },
+    {
+      "name": "h264 pix_fmt yuv420p (plays everywhere)",
+      "pass": true,
+      "hard": true,
+      "detail": "yuv420p"
+    },
+    {
+      "name": "integrated loudness",
+      "pass": true,
+      "hard": true,
+      "detail": "-15.9 LUFS (target -16 ±1)"
+    },
+    {
+      "name": "true peak",
+      "pass": true,
+      "hard": true,
+      "detail": "-2.4 dBTP (max -1.5)"
+    },
+    {
+      "name": "audio/video duration match",
+      "pass": true,
+      "hard": true,
+      "detail": "audio 30.000s / video 30.000s"
+    },
+    {
+      "name": "no holds longer than 3s",
+      "pass": true,
+      "hard": false,
+      "detail": "none"
+    },
+    {
+      "name": "no unintended black frames",
+      "pass": true,
+      "hard": false,
+      "detail": "none"
+    },
+    {
+      "name": "flashes <= 3 per second (approximation)",
+      "pass": true,
+      "hard": true,
+      "detail": "max 0 flash pairs in 1s"
+    }
+  ],
+  "contact": "out/contact_16x9.png",
+  "pass": true
+}

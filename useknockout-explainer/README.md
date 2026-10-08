@@ -2,14 +2,18 @@
 
 A 30-second explainer: one ordinary product photo becomes a clean cutout, then a studio shot, then a PSD with the shoe on its own layer. It ends on "Try the Design Studio". Built with the `premium-motion` skill in this repo.
 
-## Deliverables (`out/`)
+## Deliverables
 | File | What |
 |---|---|
-| `useknockout_16x9.mp4` | 1920×1080, 30 fps, H.264 + AAC, captions burned in (homepage) |
-| `useknockout_9x16.mp4` | 1080×1920 recomposition for Reels, text inside the platform safe zones |
-| `captions.srt` | the same captions, timed from `timeline.js` |
-| `contact_16x9.png`, `contact_9x16.png` | 24-frame contact sheets |
-| `qa_16x9.json`, `qa_9x16.json` | automated QA results |
+| `out/useknockout_16x9.mp4` | master: 1920×1080, 30 fps, H.264 crf 16 + AAC 256k, captions burned in (about 32 MB) |
+| `out/useknockout_9x16.mp4` | master: 1080×1920 Reel recomposition, text inside platform safe zones (about 25 MB) |
+| `deliverables/useknockout_16x9_web.mp4` | homepage encode, crf 23, about 4.9 MB (SSIM 0.978 vs master) |
+| `deliverables/useknockout_9x16_web.mp4` | Reel encode, about 4.7 MB |
+| `deliverables/captions.srt` | the same captions, timed from `timeline.js` |
+| `deliverables/contact_*.png` | 24-frame contact sheets |
+| `deliverables/qa_*.json` | automated QA results (all checks pass) |
+
+Masters live in `out/` (git-ignored); `tools/build.sh` regenerates them.
 
 ## Reproduce
 ```bash
@@ -29,6 +33,6 @@ This needs Node 18+, ffmpeg with zscale and libx264, Playwright with Chromium, a
 Replace `assets/original.jpg` and `assets/cutout.png` with your own photo and its real UseKnockout /remove output (same size, pixel-aligned), then run `tools/build.sh`. Everything downstream (studio framing, PSD, animation geometry) is recomputed. If you have real /studio-shot and /psd exports, drop them in as `assets/studio-shot.png` and `assets/shoe.psd`, and skip the replica step.
 
 ## What was verified, and what wasn't
-See `DECISIONS.md` for every call made, and `SOURCES.md` for where each label and image comes from. QA numbers are in `out/qa_*.json`.
+See `DECISIONS.md` for every call made, and `SOURCES.md` for where each label and image comes from. QA numbers are in `deliverables/qa_*.json`. `tools/checks/wipe_alignment.mjs` checks that each wipe edge tracks its line (worst gap 0.02 px).
 
 **Not verified:** a live /studio-shot or /psd export, because the container's network blocks useknockout.com and the API. Both outputs here come from the production code run locally. Check one real PSD export before publishing, because the public docs and the encoder disagree on the layer count.
