@@ -187,12 +187,13 @@
     .to(shadow, { opacity: 1, duration: 0.6, ease: E.soft }, K.shadowIn)
     .to(studio, { opacity: 1, duration: 0.25, ease: 'none' }, K.exactSwap)
     // Before / after: the original, framed identically, behind a split line.
-    .set(split, { opacity: 1, x: size }, K.splitIn)
+    // The before image grows from the left edge, so the line enters from the left with it.
+    .set(split, { opacity: 1, x: 0 }, K.splitIn)
     .to(split, { x: size / 2, duration: K.splitSet - K.splitIn }, K.splitIn)
     .to(before, { clipPath: beforeClip(size / 2), duration: K.splitSet - K.splitIn }, K.splitIn)
     .to([beforeTag, afterTag], { opacity: 1, duration: 0.4 }, K.splitSet - 0.2)
     .to([beforeTag, afterTag], { opacity: 0, duration: 0.25, ease: E.exit }, K.splitOut)
-    .to(split, { x: size, duration: 0.6, ease: E.exit }, K.splitOut)
+    .to(split, { x: 0, duration: 0.6, ease: E.exit }, K.splitOut)
     .to(before, { clipPath: beforeClip(0), duration: 0.6, ease: E.exit }, K.splitOut)
     .set(split, { opacity: 0 }, K.splitOut + 0.6)
 

@@ -36,7 +36,7 @@ One line each. The brief came with no attachments, and the clarifying questions 
 - **9:16 is recomposed, not cropped:** a stacked layout, with text inside the top 14% / bottom 20% / right 12% safe zones.
 
 ## Review round 1 (independent reviewer agent, frames from the v1 export)
-- **Fixed:** the before/after edge lagged the handle mid-move. The browser simplified `calc()` in the computed clip-path, so GSAP paired the wrong numbers. It now uses a plain `inset()`, verified mid-move.
+- **Fixed:** the before/after edge lagged the handle mid-move. Root cause: the line entered from the right while the before image grew from the left, so the two only met once settled. The line now enters and exits on the left. Also replaced a `calc()` in the tweened clip-path. `tools/checks/wipe_alignment.mjs` measures edge against line at 0.15-0.2 s steps in both ratios: worst gap 0.02 px.
 - **Fixed:** labels collided at scene changes. Incoming labels now start after the outgoing column is gone.
 - **Fixed:** the PSD facts were the smallest text on screen. The panel and tags are about 35% larger; in 9:16 the panel floats inside the document above the shoe.
 - **Fixed:** captions zoomed with the final camera push. They now sit outside the camera.
