@@ -1,0 +1,10 @@
+{
+  "name": "useknockout-explainer",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@fontsource/inter": "5.2.5",
+    "@fontsource/jetbrains-mono": "5.2.5",
+    "gsap": "3.13.0"
+  }
+}

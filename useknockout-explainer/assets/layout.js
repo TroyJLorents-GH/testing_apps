@@ -1,0 +1,53 @@
+// Generated from layout.json by tools/build.sh
+globalThis.LAYOUT = {
+  "image": [
+    1024,
+    1024
+  ],
+  "subject": [
+    215,
+    272,
+    798,
+    842
+  ],
+  "studio": {
+    "size": [
+      679,
+      679
+    ],
+    "paste": [
+      48,
+      54
+    ],
+    "bg": "#FFFFFF",
+    "padding": 48,
+    "shadow": {
+      "offset": [
+        8,
+        12
+      ],
+      "blur": 14,
+      "opacity": 0.35
+    }
+  },
+  "psd": {
+    "size": [
+      1024,
+      1024
+    ],
+    "layers": [
+      {
+        "name": "Cutout",
+        "kind": "pixel",
+        "bbox": [
+          0,
+          0,
+          1024,
+          1024
+        ],
+        "visible": true,
+        "opacity": 255
+      }
+    ]
+  }
+}

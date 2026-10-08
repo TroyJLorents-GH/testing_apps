@@ -1,0 +1,70 @@
+@font-face { font-family: Inter; font-weight: 400; src: url(node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2) format('woff2') }
+@font-face { font-family: Inter; font-weight: 500; src: url(node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2) format('woff2') }
+@font-face { font-family: Inter; font-weight: 600; src: url(node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2) format('woff2') }
+@font-face { font-family: JBM; font-weight: 400; src: url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2) format('woff2') }
+@font-face { font-family: JBM; font-weight: 500; src: url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2) format('woff2') }
+
+/* Tokens from useknockout.com: Inter + JetBrains Mono, brand green #57C985. */
+:root {
+  --ground: #f4f5f2;
+  --ink: #0f1512;
+  --ink-2: #4d5550;
+  --green: #57c985;
+  --green-ink: #1c6b40;   /* green for text on light ground: 5.9:1 */
+  --line: rgb(15 21 18 / .08);
+  --checker-a: #ffffff;
+  --checker-b: #e6e9e5;
+  --card-shadow: 0 1px 2px rgb(30 40 34 / .08), 0 24px 60px -18px rgb(30 40 34 / .28);
+}
+* { box-sizing: border-box; margin: 0; padding: 0 }
+html, body { overflow: hidden; background: var(--ground); color: var(--ink); font-family: Inter, sans-serif; -webkit-font-smoothing: antialiased }
+#stage { position: absolute; inset: 0; transform-origin: 50% 50% }
+
+.frame { position: absolute; overflow: hidden; border-radius: 22px; background: var(--checker-a); box-shadow: var(--card-shadow), inset 0 0 0 1px var(--line) }
+.frame > * { position: absolute; left: 0; top: 0; transform-origin: 0 0 }
+.checker { inset: 0; width: 100%; height: 100%;
+  background-color: var(--checker-a);
+  background-image: linear-gradient(45deg, var(--checker-b) 25%, transparent 25%, transparent 75%, var(--checker-b) 75%),
+                    linear-gradient(45deg, var(--checker-b) 25%, transparent 25%, transparent 75%, var(--checker-b) 75%);
+  background-size: 32px 32px; background-position: 0 0, 16px 16px }
+.white { inset: 0; width: 100%; height: 100%; background: #fff; opacity: 0 }
+.img { width: 1024px; height: 1024px; display: block }
+.studio-img { width: 679px; height: 679px; display: block; opacity: 0 }
+.scan { top: 0; width: 3px; height: 100%; background: var(--green); opacity: 0;
+  box-shadow: 0 0 0 1px rgb(87 201 133 / .25), -40px 0 60px -20px rgb(87 201 133 / .35) }
+.split { top: 0; width: 2px; height: 100%; background: #fff; opacity: 0; box-shadow: 0 0 0 1px rgb(0 0 0 / .12) }
+.split::after { content: ''; position: absolute; left: 50%; top: 50%; width: 34px; height: 34px; margin: -17px; border-radius: 50%; background: #fff; box-shadow: 0 2px 10px rgb(0 0 0 / .25) }
+.tag { position: absolute; font-family: JBM, monospace; font-size: 15px; font-weight: 500; letter-spacing: .01em; padding: 7px 11px; border-radius: 8px;
+  background: rgb(255 255 255 / .92); color: var(--ink); box-shadow: 0 1px 2px rgb(0 0 0 / .12); opacity: 0; white-space: nowrap }
+.sel { border: 2px dashed var(--green); border-radius: 4px; opacity: 0 }
+.sel i { position: absolute; width: 10px; height: 10px; background: #fff; border: 2px solid var(--green); border-radius: 2px }
+
+.col { position: absolute }
+.label { font-family: JBM, monospace; font-weight: 500; color: var(--green-ink); letter-spacing: .02em }
+.title { font-weight: 600; letter-spacing: -0.035em; line-height: 1.0; margin-top: 18px; white-space: pre-line }
+.blurb { color: var(--ink-2); line-height: 1.35; margin-top: 22px; max-width: 30ch }
+.line { display: block; overflow: hidden; padding-bottom: .08em }
+.line > span { display: inline-block }
+.url { font-family: JBM, monospace; color: var(--ink); font-weight: 500; display: inline-block; padding: 10px 16px; border-radius: 12px; background: rgb(87 201 133 / .16); box-shadow: inset 0 0 0 1px rgb(87 201 133 / .55) }
+.logo { display: block; mix-blend-mode: multiply }
+
+.panel { position: absolute; background: #fff; border-radius: 14px; box-shadow: var(--card-shadow), inset 0 0 0 1px var(--line); overflow: hidden; opacity: 0 }
+.panel .head { display: flex; justify-content: space-between; padding: 14px 18px; font-family: JBM, monospace; font-size: 15px; color: var(--ink-2); border-bottom: 1px solid var(--line) }
+.panel .row { display: flex; align-items: center; gap: 14px; padding: 12px 18px; font-size: 19px; font-weight: 500; position: relative }
+.panel .row .hl { position: absolute; inset: 4px 6px; border-radius: 9px; background: rgb(87 201 133 / .16); box-shadow: inset 0 0 0 1.5px var(--green); opacity: 0 }
+.panel .thumb { width: 46px; height: 46px; border-radius: 6px; overflow: hidden; position: relative; box-shadow: inset 0 0 0 1px var(--line);
+  background-color: #fff; background-image: linear-gradient(45deg, var(--checker-b) 25%, transparent 25%, transparent 75%, var(--checker-b) 75%), linear-gradient(45deg, var(--checker-b) 25%, transparent 25%, transparent 75%, var(--checker-b) 75%);
+  background-size: 10px 10px; background-position: 0 0, 5px 5px }
+.panel .thumb img { width: 100%; height: 100%; position: relative }
+.panel .eye { margin-left: auto; width: 22px; height: 22px; color: var(--ink-2) }
+.panel .meta { font-family: JBM, monospace; font-size: 14px; color: var(--ink-2); font-weight: 400 }
+
+.capture { position: absolute; border-radius: 12px; overflow: hidden; box-shadow: var(--card-shadow), inset 0 0 0 1px var(--line); opacity: 0; background: #fff }
+.capture .bar { height: 28px; display: flex; align-items: center; gap: 7px; padding: 0 12px; background: #eef0ed; border-bottom: 1px solid var(--line) }
+.capture .bar b { width: 10px; height: 10px; border-radius: 50%; background: #d3d7d2 }
+.capture img { display: block; width: 100% }
+.capture .cap-label { position: absolute; right: 12px; top: 5px; font-family: JBM, monospace; font-size: 12px; color: var(--ink-2) }
+
+.caption { position: absolute; transform: translateX(-50%); width: max-content; text-wrap: balance; text-align: center; color: #fff; background: rgb(15 21 18 / .86); border-radius: 12px; padding: 12px 22px 13px; line-height: 1.32; font-weight: 500; opacity: 0 }
+
+.grain { position: absolute; inset: -64px; pointer-events: none; opacity: .028; mix-blend-mode: multiply; background-size: 256px 256px }
