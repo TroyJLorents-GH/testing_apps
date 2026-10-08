@@ -1,0 +1,13 @@
+{
+  "name": "composition",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "node ../../scripts/render.mjs index.html --out out/master.mp4 --blur 8 --verify",
+    "render:4k": "node ../../scripts/render.mjs index.html --out out/master_4k.mov --codec prores --scale 2 --blur 12",
+    "qa": "node ../../scripts/qa.mjs out/master.mp4 --fps 60 --width 1920 --height 1080"
+  },
+  "dependencies": {
+    "gsap": "3.13.0"
+  }
+}

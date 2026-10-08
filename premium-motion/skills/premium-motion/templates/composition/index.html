@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Composition</title>
+<style>
+  /* Tokens: derive every value from ./brand before building scenes. */
+  :root {
+    --ground: #f4f1ec;
+    --ink: #1d1b18;
+    --ink-2: #6b665e;
+    --accent: #d9653b;
+    --surface: #ffffff;
+    --radius: 18px;
+    --shadow: 0 1px 2px rgb(60 45 30 / .10), 0 18px 48px -12px rgb(60 45 30 / .22);
+    --font-display: ui-sans-serif, "Inter", system-ui, sans-serif;
+    --font-mono: ui-monospace, "JetBrains Mono", monospace;
+  }
+  * { box-sizing: border-box; margin: 0 }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); color: var(--ink) }
+  body { font-family: var(--font-display); -webkit-font-smoothing: antialiased }
+  .stage { position: absolute; inset: 0; transform-origin: 50% 50% }
+  .layer { position: absolute; inset: 0 }
+  .title { position: absolute; left: 160px; top: 330px; font-size: 104px; font-weight: 650; letter-spacing: -0.035em; line-height: 1.02 }
+  .title .line { display: block; overflow: hidden; padding-bottom: .08em }
+  .title .line > span { display: inline-block }
+  .card {
+    position: absolute; left: 1120px; top: 300px; width: 560px; height: 420px;
+    background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow), inset 0 0 0 1px rgb(0 0 0 / .06);
+    padding: 40px;
+  }
+  .label { font-size: 22px; color: var(--ink-2); letter-spacing: .01em }
+  .value { font-size: 120px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.04em }
+  .bar { height: 10px; border-radius: 5px; background: #ece7df; margin-top: 36px; overflow: hidden }
+  .bar > i { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0) }
+  .cursor { position: absolute; left: 0; top: 0; width: 28px; height: 28px; filter: drop-shadow(0 2px 3px rgb(0 0 0 / .25)) }
+  .ripple { position: absolute; left: 1404px; top: 566px; width: 60px; height: 60px; margin: -30px; border-radius: 50%; border: 2px solid var(--accent); opacity: 0 }
+  /* Seeded grain: a fixed noise tile, offset per frame. Kills gradient banding. */
+  .grain { position: absolute; inset: -64px; pointer-events: none; opacity: .035; mix-blend-mode: multiply; background-size: 256px 256px }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="layer">
+    <h1 class="title" id="title"><span class="line"><span>Cheaper model,</span></span><span class="line"><span>bigger bill.</span></span></h1>
+  </div>
+  <div class="card" id="card">
+    <div class="label">Input cost this turn</div>
+    <div class="value" id="value">$0.02</div>
+    <div class="bar"><i id="bar"></i></div>
+  </div>
+  <div class="ripple" id="ripple"></div>
+  <svg class="cursor" id="cursor" viewBox="0 0 28 28"><path d="M5 3l16 11-7 1.5L10.5 23z" fill="#111" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</div>
+<div class="grain" id="grain"></div>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script>
+  // Seeded PRNG: the only source of randomness allowed.
+  const rng = (seed) => () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296)
+
+  const FPS = 60
+  window.__composition = { duration: 4, fps: FPS, width: 1920, height: 1080 }
+
+  // Grain tile generated once from a fixed seed.
+  const tile = document.createElement('canvas'); tile.width = tile.height = 256
+  const g = tile.getContext('2d'), img = g.createImageData(256, 256), r = rng(7)
+  for (let i = 0; i < img.data.length; i += 4) { const v = 128 + (r() - .5) * 255; img.data.set([v, v, v, 255], i) }
+  g.putImageData(img, 0, 0)
+  const grain = document.getElementById('grain')
+  grain.style.backgroundImage = `url(${tile.toDataURL()})`
+
+  // Easing tokens.
+  const E = { enter: 'expo.out', exit: 'power2.in', move: 'power3.inOut' }
+
+  gsap.set('#ripple', { scale: 0.4 })
+  const counter = { v: 0.02 }
+  const value = document.getElementById('value')
+  const tl = gsap.timeline({ paused: true, defaults: { ease: E.enter, duration: 0.6 } })
+  tl.from('#title .line > span', { yPercent: 110, stagger: 0.06, duration: 0.7 }, 0.15)
+    .from('#card', { y: 40, opacity: 0, duration: 0.7 }, 0.35)
+    .fromTo('#cursor', { x: 1500, y: 980 }, { x: 1400, y: 560, duration: 0.9, ease: E.move }, 0.9)
+    .to('#cursor', { scale: 0.88, duration: 0.08, ease: 'power1.out', transformOrigin: '20% 10%' }, 1.8)
+    .to('#cursor', { scale: 1, duration: 0.16 }, 1.88)
+    // A zero-length set reverts on backward seeks; a fromTo would show its from-state before it starts.
+    .set('#ripple', { opacity: 0.8 }, 1.82)
+    .to('#ripple', { scale: 1.6, opacity: 0, duration: 0.5, ease: 'power2.out' }, 1.82)
+    .to(counter, { v: 0.25, duration: 0.9, ease: 'power2.out', onUpdate: () => (value.textContent = `$${counter.v.toFixed(2)}`) }, 1.9)
+    .to('#bar', { scaleX: 1, duration: 0.9, ease: 'power2.out' }, 1.9)
+    .to('#stage', { scale: 1.04, duration: 1.6, ease: 'power2.inOut' }, 2.2)
+
+  window.__ready = document.fonts.ready
+  window.seek = (t) => {
+    tl.seek(t, false)
+    // Counter onUpdate does not fire on a bare seek before its start; set it explicitly.
+    if (t < 1.9) value.textContent = '$0.02'
+    const f = Math.floor(t * FPS + 1e-6), gr = rng(f + 1)
+    grain.style.transform = `translate(${Math.floor(gr() * 64) - 32}px, ${Math.floor(gr() * 64) - 32}px)`
+  }
+  window.seek(0)
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "premium-motion",
+  "version": "0.1.0",
+  "description": "Premium motion studio skill: concept to verified render. Deterministic HTML/GSAP compositions, adaptive linear-light motion blur, 4K/ProRes masters, VO and sound rules, and automated QA.",
+  "author": { "name": "Troy Lorents" }
+}

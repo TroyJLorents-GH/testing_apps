@@ -1,5 +1,16 @@
 {
   "name": "testing-apps",
-  "owner": { "name": "Troy Lorents" },
-  "plugins": [{ "name": "model-router", "source": "./model-router" }]
+  "owner": {
+    "name": "Troy Lorents"
+  },
+  "plugins": [
+    {
+      "name": "model-router",
+      "source": "./model-router"
+    },
+    {
+      "name": "premium-motion",
+      "source": "./premium-motion"
+    }
+  ]
 }
