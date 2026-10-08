@@ -46,7 +46,7 @@ html, body { overflow: hidden; background: var(--ground); color: var(--ink); fon
 .line { display: block; overflow: hidden; padding-bottom: .08em }
 .line > span { display: inline-block }
 .url { font-family: JBM, monospace; color: var(--ink); font-weight: 500; display: inline-block; padding: 10px 16px; border-radius: 12px; background: rgb(87 201 133 / .16); box-shadow: inset 0 0 0 1px rgb(87 201 133 / .55) }
-.logo { display: block; mix-blend-mode: multiply }
+.logo { display: block }
 
 .panel { position: absolute; background: #fff; border-radius: 14px; box-shadow: var(--card-shadow), inset 0 0 0 1px var(--line); overflow: hidden; opacity: 0 }
 .panel .head { display: flex; justify-content: space-between; padding: 14px 18px; font-family: JBM, monospace; font-size: 15px; color: var(--ink-2); border-bottom: 1px solid var(--line) }

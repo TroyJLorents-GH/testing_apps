@@ -14,7 +14,12 @@ logo = Image.open(ROOT / "brand/logo-primary.png").convert("RGB")
 ink = np.asarray(logo).min(axis=2) < 235
 ys, xs = np.where(ink)
 pad = 6
-logo.crop((xs.min() - pad, ys.min() - pad, xs.max() + pad, ys.max() + pad)).save(ROOT / "brand/logo-trim.png")
+trim = np.asarray(logo.crop((xs.min() - pad, ys.min() - pad, xs.max() + pad, ys.max() + pad))).astype(np.float32) / 255
+# White -> alpha with colour unmultiply (GIMP "colour to alpha"), so the logo sits on any ground.
+alpha = (1 - trim).max(axis=2, keepdims=True)
+rgb = np.where(alpha > 0, (trim - (1 - alpha)) / np.maximum(alpha, 1e-6), 0)
+rgba = np.concatenate([np.clip(rgb, 0, 1), alpha], axis=2)
+Image.fromarray((rgba * 255 + 0.5).astype(np.uint8), "RGBA").save(ROOT / "brand/logo-trim.png")
 
 # Design Studio capture: the toolbar shows a real key prefix. Replace it with a fictional workspace.
 # Source: useknockout/landing-page public/assets/canvas/effects.png (not kept in this repo; only the patched copy is).

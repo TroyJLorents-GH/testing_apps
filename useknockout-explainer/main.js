@@ -63,7 +63,7 @@
     let label
     if (key === 'cta') {
       label = el('img', 'logo', col, { src: 'brand/logo-trim.png' })
-      label.style.height = px(L.type.label * 2.1)
+      label.style.height = px(L.type.label * 2.6)
     } else {
       label = el('div', 'label', col, { textContent: step.label })
       label.style.fontSize = px(L.type.label)
