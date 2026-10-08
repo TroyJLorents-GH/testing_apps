@@ -1,14 +1,14 @@
 {
   "name": "model-router",
-  "version": "0.1.0",
-  "description": "Routes each turn to the cheapest model + effort that fits the task (Sonnet 5.5 → Opus 5.5 → Fable 5.1) and shows the ladder in a side pane.",
+  "version": "0.2.0",
+  "description": "Routes each turn to the cheapest model + effort that fits the task (Haiku 5.5 → Sonnet 5.5 → Opus 5.5 → Fable 5.1) and shows the ladder in a side pane.",
   "author": { "name": "Troy Lorents" },
   "types": "./types/index.d.ts",
   "userConfig": {
     "classifier": {
       "type": "string",
       "title": "Classifier",
-      "description": "haiku: a ~1s Haiku 4.5 call grades each prompt (heuristics as fallback). heuristic: keyword/shape scoring only, zero cost.",
+      "description": "haiku: a ~1s Haiku 5.5 call grades each prompt (heuristics as fallback). heuristic: keyword/shape scoring only, zero cost.",
       "options": ["haiku", "heuristic"],
       "default": "haiku"
     },
@@ -16,7 +16,7 @@
       "type": "string",
       "title": "Highest model allowed",
       "description": "Cost cap: the router never picks a model above this one.",
-      "options": ["sonnet", "opus", "fable"],
+      "options": ["haiku", "sonnet", "opus", "fable"],
       "default": "fable"
     },
     "stickiness": {

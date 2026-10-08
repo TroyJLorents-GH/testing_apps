@@ -30,11 +30,11 @@ async function drain(stream: AsyncIterable<unknown>) {
 }
 
 describe('model-router', () => {
-  test('routes a git one-liner down to Sonnet', async ($, on) => {
+  test('routes a git one-liner down to Haiku', async ($, on) => {
     const sent = world(on)
     await $.prompt.submit({ text: 'git status please', wait: false })
     await drain($.turn.step(step))
-    expect(sent[0]).toEqual({ model: 'claude-sonnet-5-5', effort: 'medium' })
+    expect(sent[0]).toEqual({ model: 'claude-haiku-5-5', effort: 'medium' })
   })
 
   test("follows Haiku's grade when it answers", async ($, on) => {
@@ -90,7 +90,7 @@ describe('model-router', () => {
     await drain($.turn.step(step))
     for (const surface of ['terminal', 'desktop'] as const) {
       const ui = await $.ui.mount({ plugin: 'model-router', surface, component: 'Pane', requestId: 'model-router', props: { title: 'Model router', isFocused: false, bodyColumns: 40 } } as never)
-      expect((await ui.findAll({ type: 'Text', text: '●' })).length).toBe(6)
+      expect((await ui.findAll({ type: 'Text', text: '●' })).length).toBe(11)
       expect((await ui.findAll({ type: 'Text', text: '◉' })).length).toBe(1)
       expect(await ui.find({ type: 'Text', text: /Opus 5\.5 · medium/ })).toBeDefined()
       await ui.unmount()
@@ -98,12 +98,13 @@ describe('model-router', () => {
   })
 
   test('heuristics and ladder helpers', async () => {
-    expect(classifyHeuristic('rename foo to bar').rung).toBe(0)
+    expect(classifyHeuristic('rename foo to bar').rung).toBe(rungOf('haiku', 'medium'))
     expect(classifyHeuristic('refactor the auth layer across all services').rung).toBe(rungOf('opus', 'high'))
     expect(classifyHeuristic('fix the race condition in the job scheduler').rung).toBe(rungOf('opus', 'xhigh'))
     expect(classifyHeuristic('ultrathink: design the consensus protocol').rung).toBe(rungOf('fable', 'xhigh'))
     expect(labelAt(rungOf('opus', 'medium'))).toBe('Opus 5.5 · medium')
     expect(colorAt(0)).toBe('#22c55e')
-    expect(colorAt(14)).toBe('#ef4444')
+    expect(colorAt(19)).toBe('#ef4444')
+    expect(labelAt(rungOf('haiku', 'low'))).toBe('Haiku 5.5 · low')
   })
 })

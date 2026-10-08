@@ -1,9 +1,9 @@
-export type ModelKey = 'sonnet' | 'opus' | 'fable'
+export type ModelKey = 'haiku' | 'sonnet' | 'opus' | 'fable'
 export type Effort = 'low' | 'medium' | 'high' | 'xhigh' | 'max'
 export type Mode = 'auto' | 'pinned' | 'off'
 
 export type Decision = {
-  /** Rung on the 15-step ladder: model-major, effort-minor, cheapest first. */
+  /** Rung on the 20-step ladder: model-major, effort-minor, cheapest first. */
   rung: number
   reason: string
   source: 'heuristic' | 'haiku' | 'pinned' | 'escalated' | 'held' | 'session'

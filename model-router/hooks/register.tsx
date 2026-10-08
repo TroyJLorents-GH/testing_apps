@@ -62,8 +62,8 @@ export const register: Register = (on, options) => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
       name: 'route',
-      description: 'Model router: show the ladder, or set auto | off | pin <sonnet|opus|fable> [effort]',
-      argumentHint: '[auto | off | pin <model> [effort] | why]',
+      description: 'Model router: show the ladder, or set auto | off | pin <haiku|sonnet|opus|fable> [effort]',
+      argumentHint: '[auto | off | pin <haiku|sonnet|opus|fable> [effort]]',
       immediate: true,
     })
     const savedMode = (await $.store.get('mode')) as Mode | undefined
@@ -86,7 +86,7 @@ export const register: Register = (on, options) => {
       // A refused request (model not allowed, bad args) falls back to the heuristic.
       const r = await $.model
         .complete({
-          model: 'haiku',
+          model: 'claude-haiku-5-5',
           system: CLASSIFIER_SYSTEM,
           prompt: classifierPrompt(e.text, current),
           effort: 'low',
@@ -191,7 +191,7 @@ export const register: Register = (on, options) => {
     }
 
     if (verb === 'pin') {
-      if (!MODELS.some(x => x.key === model)) return { text: 'Usage: /route pin <sonnet|opus|fable> [low|medium|high|xhigh|max]' }
+      if (!MODELS.some(x => x.key === model)) return { text: 'Usage: /route pin <haiku|sonnet|opus|fable> [low|medium|high|xhigh|max]' }
       const ef = (EFFORTS.includes(effort as Effort) ? effort : 'medium') as Effort
       const rung = rungOf(model as ModelKey, ef)
       await setMode($, 'pinned', rung)
