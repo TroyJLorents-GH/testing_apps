@@ -35,7 +35,7 @@ One line each. The brief came with no attachments, and the clarifying questions 
 - **Ducking:** the score bed sits about 9 LU under the voice, and the sidechain ducks it a further **6.5 dB** under Hope (8.0 dB under Dior; both measured, within the 6-9 dB target; the first setting gave 12.3 dB and buried the bed). 150 ms attack, 400 ms release.
 - **Master:** a peak limiter before mastering keeps the two-pass loudnorm in linear mode. Final (Hope): -16.1 LUFS, -3.3 dBTP.
 - **Captions** end about 1 s after each spoken line (they had held up to 4 s past the speech), and still hold at least 0.4 s + 0.3 s per word.
-- **Picture untouched by the voice swap:** `tools/remux.sh` stream-copies the rendered segments and replaces only the audio.
+- **Picture untouched by the voice swap:** `tools/remux.sh` stream-copies the rendered segments and replaces only the audio. Verified: all 900 decoded frames match the render in both 16:9 and 9:16.
 - **Not verified:** an independent word-for-word check of the take. ElevenLabs' transcription returned the script itself (tags included) aligned to the audio, so it proves timing, not words. Local ASR models could not be downloaded (Hugging Face, Whisper and Vosk model hosts are blocked here). **Listen once before publishing**, especially to "PSD".
 - **Rights:** commercial use of a library voice depends on the ElevenLabs plan. Confirm the account's plan covers ads.
 - **120 BPM**, so every scene boundary (5, 11, 19, 26 s) lands on a beat.
