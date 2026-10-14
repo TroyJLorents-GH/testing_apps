@@ -43,13 +43,13 @@
       "name": "integrated loudness",
       "pass": true,
       "hard": true,
-      "detail": "-15.9 LUFS (target -16 ±1)"
+      "detail": "-16.2 LUFS (target -16 ±1)"
     },
     {
       "name": "true peak",
       "pass": true,
       "hard": true,
-      "detail": "-2.4 dBTP (max -1.5)"
+      "detail": "-2.7 dBTP (max -1.5)"
     },
     {
       "name": "audio/video duration match",
