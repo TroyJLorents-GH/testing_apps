@@ -26,8 +26,8 @@ This needs Node 18+, ffmpeg with zscale and libx264, Playwright with Chromium, a
 - **`timeline.js`** is the one source of truth: scene times, key actions, captions, on-screen copy, and layout tokens per ratio.
 - **`main.js`** builds the scene and one paused GSAP timeline; `window.seek(t)` paints frame t. It is used by `index.html` (16:9) and `reel.html` (9:16).
 - **`audio.js`** is the procedural score and sound design (OfflineAudioContext, seeded). `tools/render_audio.mjs` renders it to `audio/score_raw.wav`.
-- **`audio/vo_take.mp3`** is the ElevenLabs voiceover take (voice Dior, `eleven_v4`). `tools/place_vo.mjs` splits it into its 5 lines, places each under its caption, ducks the score about 8 dB, and masters `audio/mix.wav` (-16 LUFS). It also writes the VO stem `audio/vo.wav`.
-- **Re-voicing:** replace `audio/vo_take.mp3` with any take of the same 5 lines (separated by long pauses) and run `tools/build.sh`. The build fails if the take doesn't split into 5 lines or a line overruns its caption.
+- **`audio/vo_take.mp3`** is the ElevenLabs voiceover take (voice Hope, `eleven_v4`; the Dior alternate is `audio/vo_take_dior.mp3`). `tools/place_vo.mjs` splits it into its 5 lines, places each under its caption, ducks the score 6-9 dB, and masters `audio/mix.wav` (-16 LUFS). It also writes the VO stem `audio/vo.wav`.
+- **Re-voicing:** replace `audio/vo_take.mp3` with any take of the same 5 lines (separated by long pauses) and run `tools/remux.sh`. It re-mixes and swaps only the audio on the rendered picture, in about 2 minutes. Run `tools/build.sh` instead if captions or picture changed. The build fails if the take doesn't split into 5 lines or a line overruns its caption.
 - **`tools/make_assets.py`** builds the studio shot and PSD from the real cutout using UseKnockout's production code, and checks alignment.
 - **`tools/prep_brand.py`** trims the logo and patches fictional account details into the Design Studio capture.
 

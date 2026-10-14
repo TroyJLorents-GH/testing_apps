@@ -25,15 +25,17 @@ One line each. The brief came with no attachments, and the clarifying questions 
 - **Layers panel.** A neutral panel, not Photoshop's UI, to avoid imitating Adobe's interface. It lists only what the file holds.
 
 ## Sound
-- **Voiceover (added on request).** ElevenLabs `eleven_v4`, voice **Dior: Crisp, Confident, Modern, Global** (`4XLp6ou1JHGgf9xXbHCM`), a library voice described for "SaaS and app ads, product launch videos, explainer videos, social media ads". Runners-up: Kayleigh (warm SaaS-expert female) and Justin Case (warm, trustworthy explainer).
+- **Voice: Hope, upbeat and clear** (`tnSpp4vdxKPjI9w0GnoV`), chosen by Troy, ElevenLabs `eleven_v4`. Four takes (1,252 credits). Picked take 3 (`wx6hSjd6P901t8WmnHNl`): all four had smooth envelopes, and take 3 leaves the most room at the end (closing line 3.32 s, ends 29.62 s). Hope reads slower than Dior, so line 5 fills its window to within 0.18 s.
+- **Earlier voice (kept as the alternate):** Dior: Crisp, Confident, Modern, Global (`4XLp6ou1JHGgf9xXbHCM`), take `1oAGswlA3SOQra32CiPz`, in `audio/vo_take_dior.mp3`. Copy it over `audio/vo_take.mp3` and run `tools/remux.sh` to switch back.
 - **One continuous take**, with `[warmly]` at the top, `[confident]` on the last line, and `[long pause]` between lines. One read keeps the delivery consistent; the pauses give clean cut points.
-- **Take choice.** Four variations generated (313 credits each, 1,252 total). Picked take 1 (`1oAGswlA3SOQra32CiPz`): the smoothest envelope and lowest peak (-4.2 dBFS). Take 2's -1.5 dB peak was a hard onset on "One photo"; take 3 also had spiky onsets.
+- **Dior take choice (for the record):** take 1 of 4. Take 2's -1.5 dB peak was a hard onset on "One photo"; take 3 also had spiky onsets.
 - **Script tightened for the ear.** Line 4 lost "still editable" and line 5 became "One photo. Store-ready, and still editable." so the close no longer repeats lines 3 and 4. Captions are the script word for word, so the picture was re-rendered.
 - **Placement** (`tools/place_vo.mjs`): the take is split at its silences into exactly 5 lines (the build fails otherwise). Each line starts 0.1 s after its caption and must finish before the caption ends. Line 2 starts as the background wipe starts; line 4's "own layer" lands around the moment the layer is selected; line 5 lands on the CTA.
 - **VO chain:** 80 Hz high-pass, light de-ess, 2.5:1 compression, -17 LUFS stem (`audio/vo.wav`).
-- **Ducking:** the score bed sits about 9 LU under the voice, and the sidechain ducks it a further **8.0 dB** while the voice speaks (measured, within the 6-9 dB target; the first setting gave 12.3 dB and buried the bed). 150 ms attack, 400 ms release.
-- **Master:** a peak limiter before mastering keeps the two-pass loudnorm in linear mode. Final: -16.2 LUFS, -2.8 dBTP.
+- **Ducking:** the score bed sits about 9 LU under the voice, and the sidechain ducks it a further **6.5 dB** under Hope (8.0 dB under Dior; both measured, within the 6-9 dB target; the first setting gave 12.3 dB and buried the bed). 150 ms attack, 400 ms release.
+- **Master:** a peak limiter before mastering keeps the two-pass loudnorm in linear mode. Final (Hope): -16.1 LUFS, -3.3 dBTP.
 - **Captions** end about 1 s after each spoken line (they had held up to 4 s past the speech), and still hold at least 0.4 s + 0.3 s per word.
+- **Picture untouched by the voice swap:** `tools/remux.sh` stream-copies the rendered segments and replaces only the audio.
 - **Not verified:** an independent word-for-word check of the take. ElevenLabs' transcription returned the script itself (tags included) aligned to the audio, so it proves timing, not words. Local ASR models could not be downloaded (Hugging Face, Whisper and Vosk model hosts are blocked here). **Listen once before publishing**, especially to "PSD".
 - **Rights:** commercial use of a library voice depends on the ElevenLabs plan. Confirm the account's plan covers ads.
 - **120 BPM**, so every scene boundary (5, 11, 19, 26 s) lands on a beat.
