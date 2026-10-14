@@ -17,13 +17,16 @@ const K = {
   toFinal: 26.0, ctaIn: 26.7,
 }
 
-// Burned-in captions and captions.srt. Each holds >= 0.4 s + 0.3 s per word.
+// Burned-in captions and captions.srt: the voiceover script, word for word (audio/vo_take.mp3).
+// tools/place_vo.mjs starts each spoken line VO_LEAD s after its caption appears and fails if a line overruns its caption.
+// Each caption ends about 1 s after its line and still holds >= 0.4 s + 0.3 s per word.
+const VO_LEAD = 0.1
 const CAPTIONS = [
-  { start: 0.6, end: 4.8, text: 'A great product deserves a better photo.' },
-  { start: 5.4, end: 10.8, text: 'Remove the background. Same shoe, same angle.' },
-  { start: 11.4, end: 18.8, text: 'Then place it on a clean studio backdrop, ready for your store.' },
-  { start: 19.4, end: 25.8, text: 'Export a PSD with the shoe on its own layer, still editable.' },
-  { start: 26.2, end: 29.8, text: 'One photo, ready for your store, still editable.' },
+  { start: 0.6, end: 4.4, text: 'A great product deserves a better photo.' },
+  { start: 5.4, end: 9.4, text: 'Remove the background. Same shoe, same angle.' },
+  { start: 11.4, end: 15.9, text: 'Then place it on a clean studio backdrop, ready for your store.' },
+  { start: 19.4, end: 23.2, text: 'Export a PSD, with the shoe on its own layer.' },
+  { start: 26.2, end: 29.8, text: 'One photo. Store-ready, and still editable.' },
 ]
 
 // On-screen step copy: tool labels as they appear in Design Studio (lib/workspace/tools.ts). No subheads: captions carry the line.
@@ -57,5 +60,5 @@ const LAYOUTS = {
   },
 }
 
-globalThis.TL = { FPS, DURATION, S, K, CAPTIONS, STEPS, LAYOUTS }
+globalThis.TL = { FPS, DURATION, S, K, VO_LEAD, CAPTIONS, STEPS, LAYOUTS }
 })()

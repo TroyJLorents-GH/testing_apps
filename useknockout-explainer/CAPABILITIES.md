@@ -8,5 +8,6 @@
 | GSAP | 3.13.0 from npm (CDNs blocked by network policy) | yes |
 | UseKnockout API / site | **blocked** by network policy (useknockout.com, useknockout--api.modal.run) | no; production code run locally instead |
 | PSD tooling | psd-tools 1.24.0 (PyPI) | yes, encoder replica + inspection |
-| Voice (ElevenLabs connector) | connected, spends credits | no (needs approval) |
+| Voice (ElevenLabs connector) | connected, spends credits; generated files download from storage.googleapis.com (api.elevenlabs.io itself is blocked) | yes, on request: 4 takes, 1,252 credits |
+| Local speech recognition | faster-whisper installs, but model hosts (Hugging Face, Whisper, Vosk) are blocked | no |
 | Blender / 3D | not installed | not needed |

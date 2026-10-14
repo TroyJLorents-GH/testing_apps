@@ -14,6 +14,7 @@ Every product claim, label and image in the film, and where it comes from. All o
 | "Design Studio" at /workspace | `components/TopNav.tsx` (`{ label: "Design Studio", href: "/workspace" }`), `components/workspace/TopBar.tsx` |
 | (cut) Design Studio capture | landing-page `public/assets/canvas/effects.png`, patched copy kept in `screens/`; not shown in the film |
 | Logo | landing-page `public/logo-primary.png`, trimmed |
+| Voiceover | ElevenLabs flow `ngUxGK4kp7BiDEaggg24`, generation `1oAGswlA3SOQra32CiPz` (take 1 of 4), model `eleven_v4`, voice `4XLp6ou1JHGgf9xXbHCM` (Dior). File: `audio/vo_take.mp3`. Script = `timeline.js` CAPTIONS |
 | Brand green #57C985, Inter, JetBrains Mono | the brief; landing-page `app/globals.css` (Inter, JetBrains Mono) |
 
 There are no numbers on screen other than the PSD's pixel size and layer count, which both come from the file.

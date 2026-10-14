@@ -1,6 +1,6 @@
 # UseKnockout explainer
 
-A 30-second explainer: one ordinary product photo becomes a clean cutout, then a studio shot, then a PSD with the shoe on its own layer. It ends on "Try the Design Studio". Built with the `premium-motion` skill in this repo.
+A 30-second narrated explainer: one ordinary product photo becomes a clean cutout, then a studio shot, then a PSD with the shoe on its own layer. It ends on "Try the Design Studio". Built with the `premium-motion` skill in this repo.
 
 ## Deliverables
 | File | What |
@@ -25,7 +25,9 @@ This needs Node 18+, ffmpeg with zscale and libx264, Playwright with Chromium, a
 ## How it is built
 - **`timeline.js`** is the one source of truth: scene times, key actions, captions, on-screen copy, and layout tokens per ratio.
 - **`main.js`** builds the scene and one paused GSAP timeline; `window.seek(t)` paints frame t. It is used by `index.html` (16:9) and `reel.html` (9:16).
-- **`audio.js`** is the procedural score and sound design (OfflineAudioContext, seeded). `tools/render_audio.mjs` renders it and loudness-normalizes it to `audio/mix.wav`.
+- **`audio.js`** is the procedural score and sound design (OfflineAudioContext, seeded). `tools/render_audio.mjs` renders it to `audio/score_raw.wav`.
+- **`audio/vo_take.mp3`** is the ElevenLabs voiceover take (voice Dior, `eleven_v4`). `tools/place_vo.mjs` splits it into its 5 lines, places each under its caption, ducks the score about 8 dB, and masters `audio/mix.wav` (-16 LUFS). It also writes the VO stem `audio/vo.wav`.
+- **Re-voicing:** replace `audio/vo_take.mp3` with any take of the same 5 lines (separated by long pauses) and run `tools/build.sh`. The build fails if the take doesn't split into 5 lines or a line overruns its caption.
 - **`tools/make_assets.py`** builds the studio shot and PSD from the real cutout using UseKnockout's production code, and checks alignment.
 - **`tools/prep_brand.py`** trims the logo and patches fictional account details into the Design Studio capture.
 
@@ -35,4 +37,4 @@ Replace `assets/original.jpg` and `assets/cutout.png` with your own photo and it
 ## What was verified, and what wasn't
 See `DECISIONS.md` for every call made, and `SOURCES.md` for where each label and image comes from. QA numbers are in `deliverables/qa_*.json`. `tools/checks/wipe_alignment.mjs` checks that each wipe edge tracks its line (worst gap 0.02 px).
 
-**Not verified:** a live /studio-shot or /psd export, because the container's network blocks useknockout.com and the API. Both outputs here come from the production code run locally. Check one real PSD export before publishing, because the public docs and the encoder disagree on the layer count.
+**Not verified:** an independent word-for-word check of the voiceover (no speech-recognition model reachable from this container; listen once, especially to "PSD"), and a live /studio-shot or /psd export, because the container's network blocks useknockout.com and the API. Both outputs here come from the production code run locally. Check one real PSD export before publishing, because the public docs and the encoder disagree on the layer count.

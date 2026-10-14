@@ -12,6 +12,7 @@ $PY -I tools/prep_brand.py
 node -e "const j=require('fs').readFileSync('assets/layout.json','utf8');require('fs').writeFileSync('assets/layout.js','// Generated from layout.json by tools/build.sh\nglobalThis.LAYOUT = '+j.trim()+'\n')"
 [ -d node_modules ] || npm ci --silent
 node tools/render_audio.mjs
+node tools/place_vo.mjs   # ElevenLabs VO (audio/vo_take.mp3) placed per caption, score ducked, mastered
 mkdir -p out && node tools/make_srt.mjs > /dev/null
 
 render() { # page name: two segments in parallel, then concat
